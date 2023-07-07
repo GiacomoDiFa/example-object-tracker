@@ -139,7 +139,8 @@ def get_output(interpreter, score_threshold, top_k, image_scale=1.0):
                       ymin=np.maximum(0.0, ymin),
                       xmax=np.minimum(1.0, xmax),
                       ymax=np.minimum(1.0, ymax)))
-    return [make(i) for i in range(top_k) if scores[i] >= score_threshold]
+    #attenction here because i want only person
+    return [make(i) for i in range(top_k) if scores[i] >= score_threshold and category_ids[i] == 0]
 
 
 def main():
@@ -202,12 +203,14 @@ def main():
                 trackerFlag = True
             text_lines = [
                 'Inference: {:.2f} ms'.format((end_time - start_time) * 1000),
-                'FPS: {} fps'.format(round(next(fps_counter))), ]
+                'FPS: {} fps'.format(round(next(fps_counter))), 
+                'Interested people: ']
         if len(objs) != 0:
             return generate_svg(src_size, inference_size, inference_box, objs, labels, text_lines, trdata, trackerFlag)
 
+    #attenction for size of cam (in my case 640x360)
     result = gstreamer.run_pipeline(user_callback,
-                                    src_size=(640, 480),
+                                    src_size=(640, 360),
                                     appsink_size=inference_size,
                                     trackerName=args.tracker,
                                     videosrc=args.videosrc,
