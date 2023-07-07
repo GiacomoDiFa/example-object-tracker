@@ -212,9 +212,10 @@ def main():
         if detections.any():
             if mot_tracker != None:
                 trdata = mot_tracker.update(detections)
+                if time.time() - start_detection_time > 5:
+                    persone += 1
                 trackerFlag = True
-            if time.time() - start_detection_time > 5:
-                persone += 1
+            
 
             text_lines = [
                 'Inference: {:.2f} ms'.format((end_time - start_time) * 1000),
