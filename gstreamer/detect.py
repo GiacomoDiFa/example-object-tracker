@@ -210,6 +210,11 @@ def main():
         if detections.any():
             if mot_tracker != None:
                 trdata = mot_tracker.update(detections)
+                print("\033[31m==========\033[00m")
+                print(trdata)
+                for var in trdata:
+                    print(var[4])
+                print("\033[31m==========\033[00m")
                 trackerFlag = True
             text_lines = [
                 'Inference: {:.2f} ms'.format((end_time - start_time) * 1000),
