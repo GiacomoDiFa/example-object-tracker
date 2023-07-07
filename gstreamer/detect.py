@@ -152,20 +152,6 @@ def get_output(interpreter, score_threshold, top_k, image_scale=1.0):
     #attenction here because i want only person
     return [make(i) for i in range(top_k) if scores[i] >= score_threshold and category_ids[i] == 0]
 
-def count_people(detections, prev_detections, time_threshold = 5):
-    """Counts the number of people detected for more than time_threshold seconds"""
-    current_time = time.time()
-    new_people = set(detections.keys()) - set(prev_detections.keys())
-    for person_id in new_people:
-        detections[person_id] = current_time
-    removed_people = set(prev_detections.keys()) - set(detections.keys())
-    for person_id in removed_people:
-        prev_detections.pop(person_id)
-    people_count = sum(
-        1 for person_id, timestamp in detections.items() if current_time - timestamp >= time_threshold
-    )
-    return people_count, detections
-
 
 def main():
     default_model_dir = '../models'
@@ -190,9 +176,6 @@ def main():
                         choices=[None, 'sort'])
     args = parser.parse_args()
 
-    people_detections = {}
-    prev_people_detections = {}
-
     print('Loading {} with {} labels.'.format(args.model, args.labels))
     interpreter = common.make_interpreter(args.model)
     interpreter.allocate_tensors()
@@ -206,7 +189,6 @@ def main():
     def user_callback(input_tensor, src_size, inference_box, mot_tracker):
         nonlocal fps_counter
         start_time = time.monotonic()
-        people = 0
         common.set_input(interpreter, input_tensor)
         interpreter.invoke()
         # For larger input image sizes, use the edgetpu.classification.engine for better performance
@@ -232,15 +214,9 @@ def main():
             text_lines = [
                 'Inference: {:.2f} ms'.format((end_time - start_time) * 1000),
                 'FPS: {} fps'.format(round(next(fps_counter))), 
-                'Interested people: {}'.format(people)]
-            global people_detections, prev_people_detections
-            people_count, people_detections = count_people(people_detections, prev_people_detections, time_threshold=5)
-            prev_people_detections = people_detections.copy()
-            text_lines[2] = 'Interested people: {}'.format(people_count)
+                'Interested people: ']
         if len(objs) != 0:
             return generate_svg(src_size, inference_size, inference_box, objs, labels, text_lines, trdata, trackerFlag)
-
-
 
     #attenction for size of cam (in my case 640x360)
     result = gstreamer.run_pipeline(user_callback,
