@@ -226,6 +226,7 @@ def main():
                 face_identification_time = current_time - start_time
                 if face_identification_time > 5:  # Adjust the threshold as needed
                     interested.append(face)
+                    print("La persona è interessata +1")
             
             # Append interested people to text_lines
             if interested:
