@@ -189,6 +189,7 @@ def main():
     def user_callback(input_tensor, src_size, inference_box, mot_tracker):
         nonlocal fps_counter
         start_time = time.monotonic()
+        persone = 0
         common.set_input(interpreter, input_tensor)
         interpreter.invoke()
         # For larger input image sizes, use the edgetpu.classification.engine for better performance
@@ -205,16 +206,20 @@ def main():
             detections.append(element)  # print('dets: ',dets)
         # convert to numpy array #      print('npdets: ',dets)
         detections = np.array(detections)
+        start_detection_time = time.time()
         trdata = []
         trackerFlag = False
         if detections.any():
             if mot_tracker != None:
                 trdata = mot_tracker.update(detections)
                 trackerFlag = True
+            if time.time() - start_detection_time > 5:
+                persone += 1
+
             text_lines = [
                 'Inference: {:.2f} ms'.format((end_time - start_time) * 1000),
                 'FPS: {} fps'.format(round(next(fps_counter))), 
-                'Interested people: ']
+                'Interested people: {}'.format(persone)]
         if len(objs) != 0:
             return generate_svg(src_size, inference_size, inference_box, objs, labels, text_lines, trdata, trackerFlag)
 
