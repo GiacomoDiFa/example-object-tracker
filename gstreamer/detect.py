@@ -26,12 +26,22 @@ Choose an Object Tracker. Example : To run sort tracker
 python3 detect.py --tracker sort
 
 TEST_DATA=../all_models
+DEMO_FILES = export DEMO_FILES="$HOME/demo_files"
 
 Run coco model:
 python3 detect.py \
   --model ${TEST_DATA}/mobilenet_ssd_v2_coco_quant_postprocess_edgetpu.tflite \
   --labels ${TEST_DATA}/coco_labels.txt
+
+Run face detection on USB Webcam 640x360 YUY2:
+python3 detect.py \
+  --videosrc /dev/video1 \
+  --videofmt raw \
+  --tracker sort \
+  --model ${DEMO_FILES}/ssd_mobilenet_v2_face_quant_postprocess_edgetpu.tflite
 """
+ 
+
 import argparse
 import collections
 import common
@@ -175,6 +185,61 @@ def main():
     inference_size = (w, h)
     # Average fps over last 30 frames.
     fps_counter = common.avg_fps_counter(30)
+
+    
+    def user_callback(input_tensor, src_size, inference_box, mot_tracker):
+        nonlocal fps_counter
+        start_time = time.monotonic()
+        common.set_input(interpreter, input_tensor)
+        interpreter.invoke()
+        # For larger input image sizes, use the edgetpu.classification.engine for better performance
+        objs = get_output(interpreter, args.threshold, args.top_k)
+        end_time = time.monotonic()
+        detections = []  # np.array([])
+        interested = []
+        for n in range(0, len(objs)):
+            element = []  # np.array([])
+            element.append(objs[n].bbox.xmin)
+            element.append(objs[n].bbox.ymin)
+            element.append(objs[n].bbox.xmax)
+            element.append(objs[n].bbox.ymax)
+            element.append(objs[n].score)  # print('element= ',element)
+            detections.append(element)  # print('dets: ',dets)
+            
+        # convert to numpy array #      print('npdets: ',dets)
+        detections = np.array(detections)
+        trdata = []
+        trackerFlag = False
+        if detections.any():
+            if mot_tracker != None:
+                trdata = mot_tracker.update(detections)
+                trackerFlag = True
+            text_lines = [
+                'Inference: {:.2f} ms'.format((end_time - start_time) * 1000),
+                'FPS: {} fps'.format(round(next(fps_counter))),
+                'Interested people:']
+            
+            # Check face identification time and add to interested people
+            current_time = time.monotonic()
+            identified_faces = [obj for obj in objs if obj.id == 0]  # Assuming label_id 0 represents faces
+            for face in identified_faces:
+                face_identification_time = current_time - start_time
+                if face_identification_time > 5:  # Adjust the threshold as needed
+                    interested.append(face)
+            
+            # Append interested people to text_lines
+            if interested:
+                interested_names = [labels.get(face.id, str(face.id)) for face in interested]
+                interested_text = ', '.join(interested_names)
+                text_lines.append(interested_text)
+        
+        if len(objs) != 0:
+            return generate_svg(src_size, inference_size, inference_box, objs, labels, text_lines, trdata, trackerFlag)
+        
+        # Use the 'interested' list for further processing if needed
+        for face in interested:
+            # Do something with the interested face
+            pass
 
     def user_callback(input_tensor, src_size, inference_box, mot_tracker):
         nonlocal fps_counter
