@@ -190,6 +190,9 @@ def main():
                         choices=[None, 'sort'])
     args = parser.parse_args()
 
+    people_detections = {}
+    prev_people_detections = {}
+
     print('Loading {} with {} labels.'.format(args.model, args.labels))
     interpreter = common.make_interpreter(args.model)
     interpreter.allocate_tensors()
@@ -230,15 +233,13 @@ def main():
                 'Inference: {:.2f} ms'.format((end_time - start_time) * 1000),
                 'FPS: {} fps'.format(round(next(fps_counter))), 
                 'Interested people: {}'.format(people)]
-        if len(objs) != 0:
-            people_detections, prev_people_detections = common.get_global_detections()
+            global people_detections, prev_people_detections
             people_count, people_detections = count_people(people_detections, prev_people_detections, time_threshold=5)
-            common.set_global_detections(people_detections)
+            prev_people_detections = people_detections.copy()
             text_lines[2] = 'Interested people: {}'.format(people_count)
+        if len(objs) != 0:
             return generate_svg(src_size, inference_size, inference_box, objs, labels, text_lines, trdata, trackerFlag)
-    people_detections = {}
-    prev_people_detections = {}
-    common.set_global_detections(people_detections)
+
 
 
     #attenction for size of cam (in my case 640x360)
