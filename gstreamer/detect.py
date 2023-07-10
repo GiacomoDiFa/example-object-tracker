@@ -55,7 +55,7 @@ from tracker import ObjectTracker
 
 
 Object = collections.namedtuple('Object', ['id', 'score', 'bbox'])
-Dictionary = {}
+List = []
 
 
 def load_labels(path):
@@ -208,10 +208,23 @@ def main():
         # convert to numpy array #      print('npdets: ',dets)
         detections = np.array(detections)
         trdata = []
-        def entrata(person):
-            if person[4] not in Dictionary:
-                initial_time = time.time()
-                Dictionary[person[4]] = {'id': person[4],'x1':person[0],'x2':person[1],'x3':person[2],'x4':person[3],'initial_time':initial_time, 'final_time':None}
+
+        def inbound(centroid,point,bound):
+            inbound = False
+            if (point[0] <= centroid[0]+bound and point[0] >= centroid[0]-bound and point[1] <= centroid[1]+bound and point[1] >= centroid[1]-bound):
+                inbound = True
+            return inbound
+
+        def entrata(trdata):
+            for var in trdata:
+                update = False
+                for x in List:
+                    if inbound(var,x,1):
+                        x = var
+                        update = True
+                        break
+                if not update:
+                    List.append(var)
 
 
 
@@ -224,9 +237,8 @@ def main():
                 #for var in trdata:
                     #print(var[4])
                 #print("\033[31m==========\033[00m")
-                for var in trdata:
-                      entrata(var)
-                print(Dictionary)
+                entrata(trdata)
+                print(List)
                 print("\033[31m==========\033[00m")
                 trackerFlag = True
             text_lines = [
