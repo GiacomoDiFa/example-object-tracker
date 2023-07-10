@@ -186,6 +186,7 @@ def main():
     # Average fps over last 30 frames.
     fps_counter = common.avg_fps_counter(30)
 
+
     def user_callback(input_tensor, src_size, inference_box, mot_tracker):
         nonlocal fps_counter
         start_time = time.monotonic()
@@ -206,6 +207,15 @@ def main():
         # convert to numpy array #      print('npdets: ',dets)
         detections = np.array(detections)
         trdata = []
+        people = {}
+        def entrata(id,dictionary):
+            if id not in dictionary:
+                initial_time = time.time()
+                dictionary[id] = {'id':id, 'initial_time':initial_time, 'final_time':None}
+            return dictionary
+
+
+
         trackerFlag = False
         if detections.any():
             if mot_tracker != None:
@@ -214,6 +224,10 @@ def main():
                 print(trdata)
                 for var in trdata:
                     print(var[4])
+                print("\033[31m==========\033[00m")
+                for var in trdata:
+                    people = entrata(var[4],people)
+                    print(people)
                 print("\033[31m==========\033[00m")
                 trackerFlag = True
             text_lines = [
