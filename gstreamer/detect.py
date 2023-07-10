@@ -209,10 +209,11 @@ def main():
         trdata = []
         people = {}
         def entrata(id,dictionary):
-            if id not in dictionary:
+            new_dictionary = dictionary.copy()
+            if id not in new_dictionary:
                 initial_time = time.time()
-                dictionary[id] = {'id':id, 'initial_time':initial_time, 'final_time':None}
-            return dictionary
+                new_dictionary[id] = {'id':id, 'initial_time':initial_time, 'final_time':None}
+            return new_dictionary
 
 
 
