@@ -210,10 +210,10 @@ def main():
         trdata = []
 
         def inbound(centroid,point,bound):
-            inbound = False
+            result = False
             if (point[0] <= centroid[0]+bound and point[0] >= centroid[0]-bound and point[1] <= centroid[1]+bound and point[1] >= centroid[1]-bound):
-                inbound = True
-            return inbound
+                result = True
+            return result
 
         def entrata(trdata):
             for var in trdata:
