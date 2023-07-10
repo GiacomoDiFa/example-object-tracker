@@ -227,7 +227,7 @@ def main():
                 print("\033[31m==========\033[00m")
                 for var in trdata:
                     people = entrata(var[4],people)
-                    print(people)
+                print(people)
                 print("\033[31m==========\033[00m")
                 trackerFlag = True
             text_lines = [
