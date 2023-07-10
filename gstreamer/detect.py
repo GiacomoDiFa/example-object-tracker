@@ -55,7 +55,7 @@ from tracker import ObjectTracker
 
 
 Object = collections.namedtuple('Object', ['id', 'score', 'bbox'])
-Dictionary = []
+Dictionary = {}
 
 
 def load_labels(path):
@@ -211,7 +211,7 @@ def main():
         def entrata(person):
             if person[4] not in Dictionary:
                 initial_time = time.time()
-                Dictionary[person[4]] = {'initial_time':initial_time, 'final_time':None}
+                Dictionary[person[4]] = {'id': person[4],'x1':person[0],'x2':person[1],'x3':person[2],'x4':person[3],'initial_time':initial_time, 'final_time':None}
 
 
 
