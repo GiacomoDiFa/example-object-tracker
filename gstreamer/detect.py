@@ -55,6 +55,7 @@ from tracker import ObjectTracker
 
 
 Object = collections.namedtuple('Object', ['id', 'score', 'bbox'])
+Dictionary = []
 
 
 def load_labels(path):
@@ -207,13 +208,10 @@ def main():
         # convert to numpy array #      print('npdets: ',dets)
         detections = np.array(detections)
         trdata = []
-        people = {}
-        def entrata(id,dictionary):
-            new_dictionary = dictionary.copy()
-            if id not in new_dictionary:
+        def entrata(person):
+            if person[4] not in Dictionary:
                 initial_time = time.time()
-                new_dictionary[id] = {'id':id, 'initial_time':initial_time, 'final_time':None}
-            return new_dictionary
+                Dictionary[person[4]] = {'initial_time':initial_time, 'final_time':None}
 
 
 
@@ -222,13 +220,13 @@ def main():
             if mot_tracker != None:
                 trdata = mot_tracker.update(detections)
                 print("\033[31m==========\033[00m")
-                print(trdata)
+                #print(trdata)
+                #for var in trdata:
+                    #print(var[4])
+                #print("\033[31m==========\033[00m")
                 for var in trdata:
-                    print(var[4])
-                print("\033[31m==========\033[00m")
-                for var in trdata:
-                    people = entrata(var[4],people)
-                print(people)
+                      entrata(var)
+                print(Dictionary)
                 print("\033[31m==========\033[00m")
                 trackerFlag = True
             text_lines = [
