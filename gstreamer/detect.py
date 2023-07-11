@@ -189,9 +189,13 @@ def main():
     fps_counter = common.avg_fps_counter(30)
 
     def enter(person):
-        if person[4] not in List:
-            newList = [person[4],time.time(),None]
-            List.append(newList)
+        for var in List:
+            if person[4] not in List[0]:
+                newList = []
+                newList.append(person[4])
+                newList.append(time.time())
+                newList.append(None)
+                List.append(newList)
 
 
 
