@@ -196,8 +196,15 @@ def main():
             Dictionary[id] = {'id':id, 'initial_time':initial_time, 'final_time':final_time}
 
     def checkexit(allperson):
+        find = False
         for key in Dictionary:
-            print(Dictionary[key])
+            print(key)
+            for var in allperson:
+                if(key == var[4]):
+                    find = True
+            if not find:
+                Dictionary[key][2] = time.time()
+                print(Dictionary) 
 
 
     def user_callback(input_tensor, src_size, inference_box, mot_tracker):
@@ -231,7 +238,7 @@ def main():
                 checkexit(trdata)
                 #print("\033[31m==========\033[00m")
                 #entrata(trdata)
-                print(Dictionary)
+                #print(Dictionary)
                 print("\033[31m==========\033[00m")
                 trackerFlag = True
             text_lines = [
