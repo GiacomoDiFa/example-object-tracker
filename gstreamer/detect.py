@@ -202,11 +202,11 @@ def main():
             for var in allperson:
                 if(key == var[4]):
                     find = True
-            if not find:
+            if not find and Dictionary[key]['final_time'] != None:
                 Dictionary[key]['final_time'] = time.time()
                 print("\033[96m==========\033[00m")
                 print(Dictionary) 
-                print("\033[96m==========\033[0mm")
+                print("\033[96m==========\033[00m")
 
 
     def user_callback(input_tensor, src_size, inference_box, mot_tracker):
