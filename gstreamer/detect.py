@@ -55,7 +55,7 @@ from tracker import ObjectTracker
 
 
 Object = collections.namedtuple('Object', ['id', 'score', 'bbox'])
-List = []
+Dictionary = {}
 
 
 def load_labels(path):
@@ -189,13 +189,11 @@ def main():
     fps_counter = common.avg_fps_counter(30)
 
     def enter(person):
-        for var in List:
-            if person[4] not in List[0]:
-                newList = []
-                newList.append(person[4])
-                newList.append(time.time())
-                newList.append(None)
-                List.append(newList)
+        if person[4] not in Dictionary:
+            id = person[4]
+            initial_time = time.time()
+            final_time = None
+            Dictionary[id] = {'id':id, 'initial_time':initial_time, 'final_time':final_time}
 
 
 
@@ -226,10 +224,10 @@ def main():
                 print("\033[31m==========\033[00m")
                 #print(trdata)
                 for var in trdata:
-                    enter(var[4])
+                    enter(var)
                 #print("\033[31m==========\033[00m")
                 #entrata(trdata)
-                print(List)
+                print(Dictionary)
                 print("\033[31m==========\033[00m")
                 trackerFlag = True
             text_lines = [
