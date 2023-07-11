@@ -188,6 +188,12 @@ def main():
     # Average fps over last 30 frames.
     fps_counter = common.avg_fps_counter(30)
 
+    def enter(person):
+        if person[4] not in List:
+            newList = [person[4],time.time(),None]
+            List.append(newList)
+
+
 
     def user_callback(input_tensor, src_size, inference_box, mot_tracker):
         nonlocal fps_counter
@@ -214,12 +220,12 @@ def main():
             if mot_tracker != None:
                 trdata = mot_tracker.update(detections)
                 print("\033[31m==========\033[00m")
-                print(trdata)
-                #for var in trdata:
-                    #print(var[4])
+                #print(trdata)
+                for var in trdata:
+                    enter(var[4])
                 #print("\033[31m==========\033[00m")
                 #entrata(trdata)
-                #print(List)
+                print(List)
                 print("\033[31m==========\033[00m")
                 trackerFlag = True
             text_lines = [
