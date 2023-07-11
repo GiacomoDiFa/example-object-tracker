@@ -163,7 +163,8 @@ def main():
                         default=os.path.join(default_model_dir, default_model))
     parser.add_argument('--labels', help='label file path',
                         default=os.path.join(default_model_dir, default_labels))
-    parser.add_argument('--top_k', type=int, default=3,
+    #pay attention to this parameter here
+    parser.add_argument('--top_k', type=int, default=50,
                         help='number of categories with highest score to display')
     parser.add_argument('--threshold', type=float, default=0.1,
                         help='classifier score threshold')
@@ -208,26 +209,6 @@ def main():
         # convert to numpy array #      print('npdets: ',dets)
         detections = np.array(detections)
         trdata = []
-
-        def inbound(centroid,point,bound):
-            result = False
-            if (point[0] <= centroid[0]+bound and point[0] >= centroid[0]-bound and point[1] <= centroid[1]+bound and point[1] >= centroid[1]-bound):
-                result = True
-            return result
-
-        def entrata(trdata):
-            for var in trdata:
-                update = False
-                for x in List:
-                    if inbound(var,x,1):
-                        x = var
-                        update = True
-                        break
-                if not update:
-                    List.append(var)
-
-
-
         trackerFlag = False
         if detections.any():
             if mot_tracker != None:
@@ -237,7 +218,7 @@ def main():
                 #for var in trdata:
                     #print(var[4])
                 #print("\033[31m==========\033[00m")
-                entrata(trdata)
+                #entrata(trdata)
                 print(List)
                 print("\033[31m==========\033[00m")
                 trackerFlag = True
