@@ -214,12 +214,12 @@ def main():
             if mot_tracker != None:
                 trdata = mot_tracker.update(detections)
                 print("\033[31m==========\033[00m")
-                #print(trdata)
+                print(trdata)
                 #for var in trdata:
                     #print(var[4])
                 #print("\033[31m==========\033[00m")
                 #entrata(trdata)
-                print(List)
+                #print(List)
                 print("\033[31m==========\033[00m")
                 trackerFlag = True
             text_lines = [
