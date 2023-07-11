@@ -198,13 +198,15 @@ def main():
     def checkexit(allperson):
         find = False
         for key in Dictionary:
-            print(key)
+            #print(key)
             for var in allperson:
                 if(key == var[4]):
                     find = True
             if not find:
-                Dictionary[key][2] = time.time()
+                Dictionary[key]['final_time'] = time.time()
+                print("\033[96m==========\033[00m")
                 print(Dictionary) 
+                print("\033[96m==========\033[0mm")
 
 
     def user_callback(input_tensor, src_size, inference_box, mot_tracker):
@@ -231,14 +233,13 @@ def main():
         if detections.any():
             if mot_tracker != None:
                 trdata = mot_tracker.update(detections)
-                print("\033[31m==========\033[00m")
+                #print("\033[31m==========\033[00m")
                 #print(trdata)
                 for var in trdata:
                     checkenter(var)
                 checkexit(trdata)
-                #print("\033[31m==========\033[00m")
-                #entrata(trdata)
-                #print(Dictionary)
+                print("\033[31m==========\033[00m")
+                print(Dictionary)
                 print("\033[31m==========\033[00m")
                 trackerFlag = True
             text_lines = [
