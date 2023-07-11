@@ -188,13 +188,16 @@ def main():
     # Average fps over last 30 frames.
     fps_counter = common.avg_fps_counter(30)
 
-    def enter(person):
+    def checkenter(person):
         if person[4] not in Dictionary:
             id = person[4]
             initial_time = time.time()
             final_time = None
             Dictionary[id] = {'id':id, 'initial_time':initial_time, 'final_time':final_time}
 
+    def checkexit(allperson):
+        for key in Dictionary:
+            print(Dictionary[key])
 
 
     def user_callback(input_tensor, src_size, inference_box, mot_tracker):
@@ -224,7 +227,8 @@ def main():
                 print("\033[31m==========\033[00m")
                 #print(trdata)
                 for var in trdata:
-                    enter(var)
+                    checkenter(var)
+                checkexit(trdata)
                 #print("\033[31m==========\033[00m")
                 #entrata(trdata)
                 print(Dictionary)
