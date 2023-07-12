@@ -198,16 +198,16 @@ def main():
 
     def checkexit(allperson):
         find = False
-        for key in Dictionary:
+        for var in allperson:
             #print(key)
-            for var in allperson:
+            for key in Dictionary:
                 if(key == var[4]):
                     find = True
             if not find and Dictionary[key]['final_time'] == None:
                 Dictionary[key]['final_time'] = time.time()
-                print("\033[96m==========\033[00m")
-                print(Dictionary) 
-                print("\033[96m==========\033[00m")
+                #print("\033[96m==========\033[00m")
+                #print(Dictionary) 
+                #print("\033[96m==========\033[00m")
     
     def time_calculator():
         for key in Dictionary:
@@ -249,9 +249,9 @@ def main():
                     checkenter(var)
                 checkexit(trdata)
                 time_calculator()
-                print("\033[31m==========\033[00m")
-                print(Dictionary)
-                print("\033[31m==========\033[00m")
+                #print("\033[31m==========\033[00m")
+                #print(Dictionary)
+                #print("\033[31m==========\033[00m")
                 trackerFlag = True
             text_lines = [
                 'Inference: {:.2f} ms'.format((end_time - start_time) * 1000),
