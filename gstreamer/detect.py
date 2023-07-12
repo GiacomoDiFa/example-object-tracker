@@ -197,17 +197,14 @@ def main():
             Dictionary[id] = {'id':id, 'initial_time':initial_time, 'final_time':final_time}
 
     def checkexit(allperson):
-        find = False
-        for var in allperson:
+        for key in Dictionary:
             #print(key)
-            for key in Dictionary:
-                if(key == var[4]):
-                    find = True
-            if not find and Dictionary[key]['final_time'] == None:
-                Dictionary[key]['final_time'] = time.time()
-                #print("\033[96m==========\033[00m")
-                #print(Dictionary) 
-                #print("\033[96m==========\033[00m")
+            for var in allperson:
+                if(key != var[4] and Dictionary[key]['final_time'] == None):
+                    Dictionary[key]['final_time'] = time.time()
+                    #print("\033[96m==========\033[00m")
+                    # #print(Dictionary) 
+                    # #print("\033[96m==========\033[00m")
     
     def time_calculator():
         for key in Dictionary:
