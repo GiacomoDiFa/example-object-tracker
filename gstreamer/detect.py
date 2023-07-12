@@ -199,12 +199,12 @@ def main():
     def checkexit(allperson):
         for key in Dictionary:
             #print(key)
-            for var in allperson:
-                if(key != var[4] and Dictionary[key]['final_time'] == None):
-                    Dictionary[key]['final_time'] = time.time()
-                    #print("\033[96m==========\033[00m")
-                    # #print(Dictionary) 
-                    # #print("\033[96m==========\033[00m")
+            if key not in [var[4] for var in allperson]:
+                    if Dictionary[key]['final_time'] is None:
+                        Dictionary[key]['final_time'] = time.time()
+        #print("\033[96m==========\033[00m")
+        #print(Dictionary) 
+        #print("\033[96m==========\033[00m")
     
     def time_calculator():
         for key in Dictionary:
