@@ -56,6 +56,7 @@ from tracker import ObjectTracker
 
 Object = collections.namedtuple('Object', ['id', 'score', 'bbox'])
 Dictionary = {}
+FinalDictionary={}
 
 
 def load_labels(path):
@@ -207,6 +208,15 @@ def main():
                 print("\033[96m==========\033[00m")
                 print(Dictionary) 
                 print("\033[96m==========\033[00m")
+    
+    def time_calculator():
+        for key in Dictionary:
+            if Dictionary[key]['final_time'] != None:
+                FinalDictionary[key] = {'id':key,'time':Dictionary[key]['final_time']-Dictionary[key]['initial_time']}
+        print("\033[1m==========\033[00m")
+        print(FinalDictionary)
+        print("\033[1m==========\033[00m")
+
 
 
     def user_callback(input_tensor, src_size, inference_box, mot_tracker):
@@ -238,6 +248,7 @@ def main():
                 for var in trdata:
                     checkenter(var)
                 checkexit(trdata)
+                time_calculator()
                 print("\033[31m==========\033[00m")
                 print(Dictionary)
                 print("\033[31m==========\033[00m")
