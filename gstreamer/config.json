@@ -1,0 +1,13 @@
+{
+    "influx":{
+        "url":"my-url",
+        "org":"my-org",
+        "token":"my-token",
+        
+        "bucket":"my-bucket",
+
+        "host":"Coral",
+        "location":"Urbino",
+        "room":"my-room"
+    }
+}

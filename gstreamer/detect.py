@@ -210,9 +210,10 @@ def main():
         for key in Dictionary:
             if Dictionary[key]['final_time'] != None:
                 FinalDictionary[key] = {'id':key,'time':Dictionary[key]['final_time']-Dictionary[key]['initial_time']}
-        print("\033[1m==========\033[00m")
-        print(FinalDictionary)
-        print("\033[1m==========\033[00m")
+                print(FinalDictionary[key]['final_time'])
+        #print("\033[1m==========\033[00m")
+        #print(FinalDictionary)
+        #print("\033[1m==========\033[00m")
 
 
 
@@ -252,8 +253,7 @@ def main():
                 trackerFlag = True
             text_lines = [
                 'Inference: {:.2f} ms'.format((end_time - start_time) * 1000),
-                'FPS: {} fps'.format(round(next(fps_counter))), 
-                'Interested people: ']
+                'FPS: {} fps'.format(round(next(fps_counter)))]
         if len(objs) != 0:
             return generate_svg(src_size, inference_size, inference_box, objs, labels, text_lines, trdata, trackerFlag)
 
