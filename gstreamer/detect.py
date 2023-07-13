@@ -208,12 +208,14 @@ def main():
         #print("\033[96m==========\033[00m")
     
     def time_calculator():
+        global Lenght
         for key in Dictionary:
             if Dictionary[key]['final_time'] != None:
                 FinalDictionary[key] = {'id':key,'time':Dictionary[key]['final_time']-Dictionary[key]['initial_time']}
                 #print(FinalDictionary[key]['time'])
-        if len(Dictionary) > Lenght:
-            print(FinalDictionary.keys()[-1]['time'])
+        if len(FinalDictionary) > Lenght:
+            lista = list(FinalDictionary.items())
+            print(lista[-1][1]['time'])
             Lenght += 1
         #print("\033[1m==========\033[00m")
         #print(FinalDictionary)
