@@ -210,7 +210,7 @@ def main():
         for key in Dictionary:
             if Dictionary[key]['final_time'] != None:
                 FinalDictionary[key] = {'id':key,'time':Dictionary[key]['final_time']-Dictionary[key]['initial_time']}
-                print(FinalDictionary[key]['final_time'])
+                print(FinalDictionary[key]['time'])
         #print("\033[1m==========\033[00m")
         #print(FinalDictionary)
         #print("\033[1m==========\033[00m")
