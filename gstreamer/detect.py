@@ -57,6 +57,7 @@ from tracker import ObjectTracker
 Object = collections.namedtuple('Object', ['id', 'score', 'bbox'])
 Dictionary = {}
 FinalDictionary={}
+Lenght = 0
 
 
 def load_labels(path):
@@ -210,7 +211,10 @@ def main():
         for key in Dictionary:
             if Dictionary[key]['final_time'] != None:
                 FinalDictionary[key] = {'id':key,'time':Dictionary[key]['final_time']-Dictionary[key]['initial_time']}
-                print(FinalDictionary[key]['time'])
+                #print(FinalDictionary[key]['time'])
+        if len(Dictionary) > Lenght:
+            print(FinalDictionary.keys()[-1]['time'])
+            Lenght += 1
         #print("\033[1m==========\033[00m")
         #print(FinalDictionary)
         #print("\033[1m==========\033[00m")
