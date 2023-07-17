@@ -198,17 +198,11 @@ def main():
             Dictionary[id] = {'id':id, 'initial_time':initial_time, 'final_time':final_time}
 
     def checkexit(allperson):
-        if not allperson:
-            # Tutte le persone sono uscite dalla webcam
-            for key in Dictionary:
+        for key in Dictionary:
+            #print(key)
+            if key not in [var[4] for var in allperson]:
                 if Dictionary[key]['final_time'] is None:
                     Dictionary[key]['final_time'] = time.time()
-        else:
-            for key in Dictionary:
-            #print(key)
-                if key not in [var[4] for var in allperson]:
-                    if Dictionary[key]['final_time'] is None:
-                        Dictionary[key]['final_time'] = time.time()
         #print("\033[96m==========\033[00m")
         #print(Dictionary) 
         #print("\033[96m==========\033[00m")
