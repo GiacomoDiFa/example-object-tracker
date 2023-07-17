@@ -244,18 +244,18 @@ def main():
         detections = np.array(detections)
         trdata = []
         trackerFlag = False
-        if detections.any():
-            if mot_tracker != None:
-                trdata = mot_tracker.update(detections)
-                for var in trdata:
-                    checkenter(var)
-                checkexit(trdata)
-                time_calculator()
-                trackerFlag = True
-            text_lines = [
-                'Inference: {:.2f} ms'.format((end_time - start_time) * 1000),
-                'FPS: {} fps'.format(round(next(fps_counter)))]
         if len(objs) != 0:
+            if detections.any():
+                if mot_tracker != None:
+                    trdata = mot_tracker.update(detections)
+                    for var in trdata:
+                        checkenter(var)
+                    checkexit(trdata)
+                    time_calculator()
+                    trackerFlag = True
+                text_lines = [
+                    'Inference: {:.2f} ms'.format((end_time - start_time) * 1000),
+                    'FPS: {} fps'.format(round(next(fps_counter)))]
             print(len(objs))
             return generate_svg(src_size, inference_size, inference_box, objs, labels, text_lines, trdata, trackerFlag)
 
