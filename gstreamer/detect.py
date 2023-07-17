@@ -255,9 +255,9 @@ def main():
             text_lines = [
                 'Inference: {:.2f} ms'.format((end_time - start_time) * 1000),
                 'FPS: {} fps'.format(round(next(fps_counter)))]
-            if len(objs) != 0:
-                print(len(objs))
-                return generate_svg(src_size, inference_size, inference_box, objs, labels, text_lines, trdata, trackerFlag)
+        if len(objs) != 0:
+            print(len(objs))
+            return generate_svg(src_size, inference_size, inference_box, objs, labels, text_lines, trdata, trackerFlag)
 
     #attenction for size of cam (in my case 640x360)
     result = gstreamer.run_pipeline(user_callback,
