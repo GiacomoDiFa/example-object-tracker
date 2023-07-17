@@ -198,9 +198,15 @@ def main():
             Dictionary[id] = {'id':id, 'initial_time':initial_time, 'final_time':final_time}
 
     def checkexit(allperson):
-        for key in Dictionary:
+        if not allperson:
+            # Tutte le persone sono uscite dalla webcam
+            for key in Dictionary:
+                if Dictionary[key]['final_time'] is None:
+                    Dictionary[key]['final_time'] = time.time()
+        else:
+            for key in Dictionary:
             #print(key)
-            if key not in [var[4] for var in allperson]:
+                if key not in [var[4] for var in allperson]:
                     if Dictionary[key]['final_time'] is None:
                         Dictionary[key]['final_time'] = time.time()
         #print("\033[96m==========\033[00m")
@@ -244,23 +250,19 @@ def main():
         detections = np.array(detections)
         trdata = []
         trackerFlag = False
-        if detections.any():
-            if mot_tracker != None:
-                trdata = mot_tracker.update(detections)
-                #print("\033[31m==========\033[00m")
-                #print(trdata)
-                for var in trdata:
-                    checkenter(var)
-                checkexit(trdata)
-                time_calculator()
-                #print("\033[31m==========\033[00m")
-                #print(Dictionary)
-                #print("\033[31m==========\033[00m")
-                trackerFlag = True
-            text_lines = [
+        if len(objs) != 0:
+            if detections.any():
+                if mot_tracker != None:
+                    trdata = mot_tracker.update(detections)
+                    for var in trdata:
+                        checkenter(var)
+                    checkexit(trdata)
+                    time_calculator()
+                    trackerFlag = True
+                text_lines = [
                 'Inference: {:.2f} ms'.format((end_time - start_time) * 1000),
                 'FPS: {} fps'.format(round(next(fps_counter)))]
-        if len(objs) != 0:
+            print(len(objs))
             return generate_svg(src_size, inference_size, inference_box, objs, labels, text_lines, trdata, trackerFlag)
 
     #attenction for size of cam (in my case 640x360)
