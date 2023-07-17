@@ -263,8 +263,8 @@ def main():
                 trdata = mot_tracker.update(detections)
                 for var in trdata:
                     checkenter(var)
-                checkexit(trdata)
-                time_calculator()
+                #checkexit(trdata)
+                #time_calculator()
                 trackerFlag = True
             text_lines = [
                 'Inference: {:.2f} ms'.format((end_time - start_time) * 1000),
