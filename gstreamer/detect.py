@@ -153,7 +153,11 @@ def get_output(interpreter, score_threshold, top_k, image_scale=1.0):
                       xmax=np.minimum(1.0, xmax),
                       ymax=np.minimum(1.0, ymax)))
     #attenction here because i want only person
-    return [make(i) for i in range(top_k) if scores[i] >= score_threshold and category_ids[i] == 0]
+    result = [make(i) for i in range(top_k) if scores[i] >= score_threshold and category_ids[i] == 0]
+    if all(scores[i] < score_threshold or category_ids[i] != 0 for i in range(top_k)):
+        return []
+    else:
+        return result
 
 
 def main():
