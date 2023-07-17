@@ -152,8 +152,22 @@ def get_output(interpreter, score_threshold, top_k, image_scale=1.0):
                       ymin=np.maximum(0.0, ymin),
                       xmax=np.minimum(1.0, xmax),
                       ymax=np.minimum(1.0, ymax)))
+    def is_object_in_view(box, webcam_width, webcam_height):
+        ymin, xmin, ymax, xmax = box
+        if xmin >= 0 and xmax <= 1 and ymin >= 0 and ymax <= 1:
+            box_width = xmax - xmin
+            box_height = ymax - ymin
+            if box_width > 0 and box_height > 0:
+                screen_x = xmin * webcam_width
+                screen_y = ymin * webcam_height
+                screen_width = box_width * webcam_width
+                screen_height = box_height * webcam_height
+                if screen_x >= 0 and screen_x + screen_width <= webcam_width and screen_y >= 0 and screen_y + screen_height <= webcam_height:
+                    return True
+        return False
+
     #attenction here because i want only person
-    return [make(i) for i in range(top_k) if scores[i] >= score_threshold and category_ids[i] == 0] if any(scores[i] >= score_threshold and category_ids[i] == 0 for i in range(top_k)) else []
+    return [make(i) for i in range(top_k) if is_object_in_view(boxes[i],640,360) and scores[i] >= score_threshold and category_ids[i] == 0]
 
 
 def main():
