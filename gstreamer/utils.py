@@ -20,6 +20,6 @@ class InfluxManager:
 
     def send(self,data):
         task = "monitor_task,host={},location={},room={}".format(self.cfg['host'],self.cfg['location'],self.cfg['room'])
-        sequence = [str(task) + "time-detection" + str(data),]
+        sequence = [str(task) + " time-detection=" + str(data),]
         self.apiWriter.write(bucket = self.cfg['bucket'], org = self.cfg['org'], record = sequence)
         print("Time attention: {}".format(data))

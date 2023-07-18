@@ -235,7 +235,7 @@ def main():
                 #print(FinalDictionary[key]['time'])
         if len(FinalDictionary) > Lenght:
             lista = list(FinalDictionary.items())
-            print(lista[-1][1]['time'])
+            #print(lista[-1][1]['time'])
             manager.send(lista[-1][1]['time'])
             Lenght += 1
         #print("\033[1m==========\033[00m")
@@ -279,7 +279,7 @@ def main():
         checkexit(trdata)
         time_calculator()
         if len(objs) != 0:
-            print(len(objs))
+            #print(len(objs))
             return generate_svg(src_size, inference_size, inference_box, objs, labels, text_lines, trdata, trackerFlag)
 
     #attenction for size of cam (in my case 640x360)
