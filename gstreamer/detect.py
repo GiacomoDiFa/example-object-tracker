@@ -219,6 +219,7 @@ def main():
         for key in Dictionary:
             if Dictionary[key]['final_time'] != None:
                 FinalDictionary[key] = {'id':key,'time':Dictionary[key]['final_time']-Dictionary[key]['initial_time']}
+                Dictionary.pop(key) 
                 #print(FinalDictionary[key]['time'])
         if len(FinalDictionary) > Lenght:
             lista = list(FinalDictionary.items())
