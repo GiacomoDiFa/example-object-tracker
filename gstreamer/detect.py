@@ -266,10 +266,10 @@ def main():
         checkexit(trdata)
         time_calculator()
         if len(objs) != 0:
-            print(len(objs))
+            #print(len(objs))
             return generate_svg(src_size, inference_size, inference_box, objs, labels, text_lines, trdata, trackerFlag)
         else:
-            print(len(objs))
+            #print(len(objs))
             checkexit(trdata)
             time_calculator()
 
