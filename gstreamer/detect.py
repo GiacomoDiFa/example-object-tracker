@@ -59,6 +59,7 @@ Object = collections.namedtuple('Object', ['id', 'score', 'bbox'])
 Dictionary = {}
 FinalDictionary={}
 Lenght = 0
+KeyList = []
 
 
 #configuration load
@@ -219,8 +220,10 @@ def main():
         for key in Dictionary:
             if Dictionary[key]['final_time'] != None:
                 FinalDictionary[key] = {'id':key,'time':Dictionary[key]['final_time']-Dictionary[key]['initial_time']}
-                Dictionary.pop(key) 
+                KeyList.append(key)
                 #print(FinalDictionary[key]['time'])
+        for key in KeyList:
+            Dictionary.pop(key,None)
         if len(FinalDictionary) > Lenght:
             lista = list(FinalDictionary.items())
             #print(lista[-1][1]['time'])
