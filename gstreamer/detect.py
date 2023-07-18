@@ -52,12 +52,18 @@ import re
 import svgwrite
 import time
 from tracker import ObjectTracker
+import utils
 
 
 Object = collections.namedtuple('Object', ['id', 'score', 'bbox'])
 Dictionary = {}
 FinalDictionary={}
 Lenght = 0
+
+
+#configuration load
+cfg = utils.readConfig()
+manager = utils.InfluxManager(cfg['influx'])
 
 
 def load_labels(path):
@@ -230,6 +236,7 @@ def main():
         if len(FinalDictionary) > Lenght:
             lista = list(FinalDictionary.items())
             print(lista[-1][1]['time'])
+            manager.send(lista[-1][1]['time'])
             Lenght += 1
         #print("\033[1m==========\033[00m")
         #print(FinalDictionary)
