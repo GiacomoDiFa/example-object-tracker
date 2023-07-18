@@ -214,6 +214,7 @@ def main():
         #print("\033[96m==========\033[00m")
         #print(Dictionary) 
         #print("\033[96m==========\033[00m")
+        time_calculator()
     
     def time_calculator():
         global Lenght
@@ -268,14 +269,12 @@ def main():
                 'Inference: {:.2f} ms'.format((end_time - start_time) * 1000),
                 'FPS: {} fps'.format(round(next(fps_counter)))]
         checkexit(trdata)
-        time_calculator()
         if len(objs) != 0:
             #print(len(objs))
             return generate_svg(src_size, inference_size, inference_box, objs, labels, text_lines, trdata, trackerFlag)
         else:
             #print(len(objs))
             checkexit(trdata)
-            time_calculator()
 
     #attenction for size of cam (in my case 640x360)
     result = gstreamer.run_pipeline(user_callback,
