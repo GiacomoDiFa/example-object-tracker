@@ -208,7 +208,7 @@ def run_pipeline(user_function,
                  trackerName,
                  videosrc='/dev/video1',
                  videofmt='raw',
-                 headless = False):
+                 headless = True):
     objectOfTracker = None
     if videofmt == 'h264':
         SRC_CAPS = 'video/x-h264,width={width},height={height},framerate=30/1'
