@@ -272,6 +272,7 @@ def main():
         if len(objs) != 0:
             #print(len(objs))
             return generate_svg(src_size, inference_size, inference_box, objs, labels, text_lines, trdata, trackerFlag)
+            #print("prova")
         else:
             #print(len(objs))
             checkexit(trdata)
