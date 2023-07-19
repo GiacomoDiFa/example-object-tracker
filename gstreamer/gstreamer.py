@@ -207,7 +207,8 @@ def run_pipeline(user_function,
                  appsink_size,
                  trackerName,
                  videosrc='/dev/video1',
-                 videofmt='raw'):
+                 videofmt='raw',
+                 headless = False):
     objectOfTracker = None
     if videofmt == 'h264':
         SRC_CAPS = 'video/x-h264,width={width},height={height},framerate=30/1'
@@ -240,7 +241,14 @@ def run_pipeline(user_function,
     else:
         pass
 
-    if detectCoralDevBoard():
+    if headless:
+        scale = min(appsink_size[0] / src_size[0], appsink_size[1] / src_size[1])
+        scale = tuple(int(x * scale) for x in src_size)
+        scale_caps = 'video/x-raw,width={width},height={height}'.format(width=scale[0], height=scale[1])
+        PIPELINE += """ ! decodebin ! queue ! videoconvert ! videoscale
+        ! {scale_caps} ! videobox name=box autocrop=true ! {sink_caps} ! {sink_element}
+        """
+    elif detectCoralDevBoard():
         scale_caps = None
         PIPELINE += """ ! decodebin ! glupload ! tee name=t
             t. ! queue ! glfilterbin filter=glbox name=glbox ! {sink_caps} ! {sink_element}
